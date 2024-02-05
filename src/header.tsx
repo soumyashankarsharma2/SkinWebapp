@@ -1,10 +1,13 @@
 "use client";
 import { AppBar, Box, Button, Container, Grid, IconButton, Menu, MenuItem, Modal, TextField, Toolbar, Tooltip, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Avatar from '@mui/material/Avatar';
+import { useRouter } from "next/navigation";
+import GlobalContext from "./context/GlobalContext";
 
 const Header = () => {
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
+    const { open, setOpen } = useContext(GlobalContext);
     const [loginSelected, setLoginSelected] = useState(true);
     const style = {
         position: 'absolute' as 'absolute',
@@ -17,6 +20,7 @@ const Header = () => {
         boxShadow: 24,
         p: 4,
     };
+    const router = useRouter();
     const getLoginContent = () => {
         return (
             <>
@@ -35,7 +39,7 @@ const Header = () => {
     const getSignUpContent = () => {
         return (
             <>
-            <div className="text-center mt-5">
+                <div className="text-center mt-5">
                     <TextField label="Name" variant="standard" />
                 </div>
                 <div className="text-center mt-5">
@@ -58,7 +62,7 @@ const Header = () => {
     };
     return (
         <>
-            <AppBar position="sticky">
+            <AppBar position="sticky" className="bg-brand-bg-1">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Grid container>
@@ -76,12 +80,17 @@ const Header = () => {
                                         color: 'inherit',
                                         textDecoration: 'none',
                                     }}
+                                    className="text-brand-txt-1 cursor-pointer"
+                                    onClick={() => { router.push('/', { scroll: false }); }}
                                 >
                                     Skinology
                                 </Typography>
                             </Grid>
                             <Grid xs={8} className="text-right">
                                 <Box sx={{ flexGrow: 0 }} className='flex' justifyContent="flex-end">
+                                    <Tooltip title="Book Appointment">
+                                        <div onClick={() => { router.push('/qna', { scroll: false }); }} className="text-[#fff] rounded-lg border-solid  border-[1px] mr-[20px] px-[10px] my-auto bg-brand-txt-1 text-brand-bg-1 font-bold cursor-pointer">Booking</div>
+                                    </Tooltip>
                                     <Tooltip title="Login/Register">
                                         <Button onClick={() => setOpen(true)} className="text-[#fff] bg-[red]">Login/Register</Button>
                                         {/* <IconButton onClick={() => { }} sx={{ p: 0 }}>
